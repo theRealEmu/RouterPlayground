@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+  </style>
+  <script>
+  //Start when loaded
+  document.addEventListener('DOMContentLoaded', index);
+
+  //Function calls
+  function index() {
+    console.log("Script is running :)");
+    var myFirstRouter = new Router("myFirstRouter", [
+      {
+        path: "/",
+        name: "Root"
+      },
+      {
+        path: "/about",
+        name: "About"
+      },
+      {
+        path: "/contact",
+        name: "Contact"
+      }
+    ]);
+    console.log(myFirstRouter); //Debug
+
+    let currentPath = window.location.pathname;
+    console.log(currentPath); // Debug
+
+    if( currentPath === "/" ) {
+      document.getElementById("view").innerHTML = "You are on the /route.html page."
+    }
+    // else if( currentPath === "/about" ) {
+    //   document.getElementById("view").innerHTML = "You are on the /about.html page."
+    // }
+    // else if( currentPath === "/contacts" ) {
+    //   document.getElementById("view").innerHTML = "You are on the /contacts.html page."
+    // }
+    else {
+      var route = myFirstRouter.routes.filter( (r) => {
+        return r.path === currentPath;
+      })[0];
+      console.log(route); //Debug
+      document.getElementById("view").innerHTML = `You are on the ${route.name}.html page.`;
+      
+    }
+  }
+
+    // Router Class
+    class Router{
+      constructor(name, routes) {        
+        this.name = name;
+        this.routes = routes;        
+      }
+    }
+  </script>
+</head>
+<body>
+  Hello Router :)
+  <div id="view"></div>
+  
+</body>
+</html>
