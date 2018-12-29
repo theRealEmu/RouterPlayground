@@ -7,50 +7,57 @@
   <title>Document</title>
   <style>
   </style>
+  
   <script>
-  //Start when loaded
-  document.addEventListener('DOMContentLoaded', index);
+    //Start when loaded
+    document.addEventListener('DOMContentLoaded', index);
 
-  //Function calls
-  function index() {
-    console.log("Script is running :)");
-    var myFirstRouter = new Router("myFirstRouter", [
-      {
-        path: "/",
-        name: "Root"
-      },
-      {
-        path: "/about",
-        name: "About"
-      },
-      {
-        path: "/contact",
-        name: "Contact"
+    //Function calls
+    function index() {
+      console.log("Script is running :)");
+      var myFirstRouter = new Router("myFirstRouter", [
+        {
+          path: "/",
+          name: "Root"
+        },
+        {
+          path: "/about",
+          name: "About"
+        },
+        {
+          path: "/contact",
+          name: "Contact"
+        }
+      ]);
+      console.log(myFirstRouter); //Debug
+
+      let currentPath = window.location.pathname;
+      console.log(currentPath); // Debug
+
+      if( (currentPath === "/") || (currentPath === "/router.html") ) {
+
+        //window.location.pathname = "/router.html";  //Leads to page refresh //which is bad
+
+        //history.pushState(null, null, "index.html");  //changes the URL without refresh
+
+        document.getElementById("view").innerHTML = "You are on the /router.html page.";
+
       }
-    ]);
-    console.log(myFirstRouter); //Debug
-
-    let currentPath = window.location.pathname;
-    console.log(currentPath); // Debug
-
-    if( currentPath === "/" ) {
-      document.getElementById("view").innerHTML = "You are on the /route.html page."
+      // else if( currentPath === "/about" ) {
+      //   document.getElementById("view").innerHTML = "You are on the /about.html page."
+      // }
+      // else if( currentPath === "/contacts" ) {
+      //   document.getElementById("view").innerHTML = "You are on the /contacts.html page."
+      // }
+      else {
+        var route = myFirstRouter.routes.filter( (r) => {
+          return r.path === currentPath;
+        })[0];
+        console.log(route); //Debug
+        document.getElementById("view").innerHTML = `You are on the ${route.name}.html page.`;
+        
+      }
     }
-    // else if( currentPath === "/about" ) {
-    //   document.getElementById("view").innerHTML = "You are on the /about.html page."
-    // }
-    // else if( currentPath === "/contacts" ) {
-    //   document.getElementById("view").innerHTML = "You are on the /contacts.html page."
-    // }
-    else {
-      var route = myFirstRouter.routes.filter( (r) => {
-        return r.path === currentPath;
-      })[0];
-      console.log(route); //Debug
-      document.getElementById("view").innerHTML = `You are on the ${route.name}.html page.`;
-      
-    }
-  }
 
     // Router Class
     class Router{
